@@ -10,7 +10,7 @@ import org.hibernate.type.TrueFalseConverter;
 import java.util.List;
 
 @Entity
-@Setter @Getter
+@Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "products")
@@ -26,10 +26,12 @@ public class Product {
     //@Convert(converter = TrueFalseConverter.class)
     private boolean is_active;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private List<OrderList> orderLists;
-
     @ManyToOne
     @JoinColumn(name = "categories_id")
     private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<OrderList> orderLists;
+
+
 }
