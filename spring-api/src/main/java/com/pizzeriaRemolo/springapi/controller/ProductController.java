@@ -4,10 +4,13 @@ import com.pizzeriaRemolo.springapi.dto.ProductDTO;
 import com.pizzeriaRemolo.springapi.model.Product;
 import com.pizzeriaRemolo.springapi.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/products")
@@ -35,8 +38,21 @@ public class ProductController {
     }
 
     @PostMapping(value = "/save")
-    public ResponseEntity<Product> saveProduct(@RequestBody Product product){
-        Product saveProduct = iProductService.saveProduct(product);
-        return ResponseEntity.ok(saveProduct);
+    public ResponseEntity<?> saveProduct(@Valid @RequestBody Product product){
+        iProductService.saveProduct(product);
+        return new ResponseEntity<>("Producto Guardado", HttpStatus.OK);
     }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+        try {
+            iProductService.deleteProduct(id);
+            return ResponseEntity.ok("Producto eliminado");
+        } catch (NoSuchElementException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno del servidor");
+        }
+    }
+
 }

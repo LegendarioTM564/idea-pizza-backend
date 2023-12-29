@@ -18,8 +18,11 @@ public class OrderDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String customer_name;
+    @Column(nullable = false)
     private String delivery_address;
+    @Column(nullable = false)
     private String phone_number;
 
     @OneToMany(mappedBy = "orderDetail", cascade = CascadeType.ALL)

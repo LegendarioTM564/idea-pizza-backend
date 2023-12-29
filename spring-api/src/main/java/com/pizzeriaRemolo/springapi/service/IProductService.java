@@ -13,7 +13,7 @@ public interface IProductService {
     public Product findProduct(Long id);
 
     //Metodo para guardar productos.
-    public Product saveProduct(Product product);
+    public void saveProduct(Product product);
 
     //Metodo para guardar lista de productos.
     public  void saveListProduct(List<Product>listProducts);

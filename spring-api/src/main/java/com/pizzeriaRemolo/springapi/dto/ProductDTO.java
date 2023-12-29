@@ -17,8 +17,7 @@ public class ProductDTO {
     private double price;
     private String description;
     private String image;
-    //@Convert(converter = TrueFalseConverter.class)
-    private boolean is_active;
+    private boolean active;
     private Long categoryId;
 
     public static ProductDTO fromEntity(Product product){
@@ -28,7 +27,7 @@ public class ProductDTO {
         productDTO.setPrice(product.getPrice());
         productDTO.setImage(product.getImage());
         productDTO.setDescription(product.getDescription());
-        productDTO.set_active(product.is_active());
+        productDTO.setActive(product.isActive());
         productDTO.setCategoryId(product.getCategory() != null ? product.getCategory().getId() : null);
         return productDTO;
     }

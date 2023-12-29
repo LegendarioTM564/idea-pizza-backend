@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -29,5 +30,20 @@ public class Order {
     @JoinColumn(name = "order_details_id", nullable = false)
     private OrderDetail orderDetail;
 
+    public void calculateTotal(List<OrderList> orderLists){
+        if(orderLists != null){
+            double total = orderLists.stream()
+                    .peek(orderList -> {
+                        System.out.println("Product Price: " + orderList.getProduct().getPrice());
+                        System.out.println("Quantity: " + orderList.getQuantity());
+                    })
+                    .mapToDouble(orderList -> orderList.getProduct().getPrice() * orderList.getQuantity())
+                    .sum();
+            System.out.println("Calculated Total: " + total);
+            setTotal(total);
+        }else {
+            setTotal(0.0);
+        }
+    }
 
 }

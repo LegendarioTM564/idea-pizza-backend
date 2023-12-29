@@ -2,6 +2,8 @@ package com.pizzeriaRemolo.springapi.service;
 
 
 import com.pizzeriaRemolo.springapi.model.Order;
+import com.pizzeriaRemolo.springapi.model.OrderDetail;
+import com.pizzeriaRemolo.springapi.model.OrderList;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,5 +27,7 @@ public interface IOrderService {
 
     //Metodo para eliminar una orden.
     public void deleteOrder(Long id);
+
+    public Order saveOrderConfirmation(Order order, OrderDetail orderDetail, List<OrderList> orderLists);
 
 }

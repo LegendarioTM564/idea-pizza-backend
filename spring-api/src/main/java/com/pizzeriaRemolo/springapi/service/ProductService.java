@@ -3,9 +3,13 @@ package com.pizzeriaRemolo.springapi.service;
 import com.pizzeriaRemolo.springapi.model.Product;
 import com.pizzeriaRemolo.springapi.repository.IProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+
 @Service
 public class ProductService implements IProductService{
 
@@ -25,10 +29,8 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public Product saveProduct(Product product) {
+    public void saveProduct(Product product) {
         iProductRepository.save(product);
-
-        return product;
     }
 
     @Override
@@ -38,7 +40,12 @@ public class ProductService implements IProductService{
 
     @Override
     public void deleteProduct(Long id) {
-        iProductRepository.deleteById(id);
+        Optional<Product> optionalProduct = iProductRepository.findById(id);
+        if(optionalProduct.isPresent()){
+            iProductRepository.deleteById(id);
+        }else {
+            throw new NoSuchElementException("Producto con ID " + id + " no encontrado");
+        }
     }
 
     @Override
